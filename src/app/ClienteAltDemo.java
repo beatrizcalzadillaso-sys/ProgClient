@@ -24,7 +24,7 @@ public class ClienteAltDemo {
         if (p3.isCompletamenteValido()) catalogo.add(p3);
         if (p4.isCompletamenteValido()) catalogo.add(p4);
         if (p5.isCompletamenteValido()) catalogo.add(p5);
-
+       
         // Ejecutar el flujo de cliente
         ClienteAlt cliente = new ClienteAlt();
         cliente.ejecutarCliente(catalogo);
