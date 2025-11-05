@@ -33,9 +33,9 @@ public class ClientB {
 			System.out.println("Presione el numero para la opcion deseada");
 			opMenu = Integer.parseInt(teclado.nextLine());
 			
-			entrarMenuTipo(opMenu);
+			entrarMenuTipo(opMenu, menu1);
 			
-			agregarCarrito();
+			agregarCarrito(menu1);
 			
 			verPedido();
 			
@@ -49,42 +49,50 @@ public class ClientB {
 
 	}
 
-	private static void entrarMenuTipo(int opMenu) {
+	private static void entrarMenuTipo(int opMenu, List<ProductoItem> menu1) {
 		if (opMenu == 1 || opMenu == 2 ||opMenu == 3 ||opMenu == 4) {
-			//Imprimir productos tipo 1/2/3/4
+			System.out.println(menu1);
 			System.out.println("Desea agregar un producto de este grupo?"
 					+ "\n 1- Si"
 					+ "\n 2- No");
 			int respuesta = Integer.parseInt(teclado.nextLine());
 			
 			if (respuesta == 1) {
-				agregarCarrito();
+				agregarCarrito(menu1);
 			} else {/* regresar al menu*/ }
 		} else {}
 		
 		
 	}
 	
-	private static void agregarCarrito() {
+	private static void agregarCarrito(List<ProductoItem> menu1) {
+		String idAdd; 
+		String cantidadAdd;
+		
+		boolean idEntero = false;
+	    boolean cantidadEntero = false;
+		
 		do {
+			
+		    
 			do {
 				System.out.println("Introduzca el ID del producto que desea");
-				String idAdd = teclado.nextLine();
-				boolean idEntero = esEntero(idAdd);
+				idAdd = teclado.nextLine();
+				idEntero = esEntero(idAdd);
 				if (!idEntero) {System.out.println("Ingrese un valor de tipo enetero");}
 				} while(!idEntero);
 			// idAdd debe existir, mapear el catalogo de productos
 		
 			do {
 				System.out.println("Introduzca la cantidad de producto que desea");
-				String cantidadAdd = teclado.next();
-				boolean cantidadEntero = esEntero(cantidadAdd);
+				cantidadAdd = teclado.next();
+				cantidadEntero = esEntero(cantidadAdd);
 				
 				if (!cantidadEntero) {System.out.println("Ingrese un valor de tipo enetero");}
 				} while(!cantidadEntero);
 			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 			
-		} while (!verificado());
+		} while (!verificado (idAdd, cantidadAdd, menu1));
 		
 	}
 	
@@ -96,7 +104,8 @@ public class ClientB {
 	
 	private static void salir() {}
 	
-	private static boolean verificado(String idAdd, String cantidadAdd) {
+	
+	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menu1) {
 		
 		boolean existe = false;
 		int idAddInt = Integer.parseInt(idAdd);
@@ -110,6 +119,7 @@ public class ClientB {
 		
 		return existe;
 	}
+
 	
 	private static boolean esEntero(String texto) {
 		boolean esValido= true;
