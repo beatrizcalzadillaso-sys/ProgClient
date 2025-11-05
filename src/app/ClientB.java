@@ -59,7 +59,7 @@ public class ClientB {
 			
 			verPedido(null);
 			
-			modificarPedido();
+			modificarPedido(null);
 			
 			resumenCompra();
 			
@@ -129,16 +129,17 @@ public class ClientB {
 		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
 		
 		//error al empezar el for, no está viendo el carrito que se inicializo con 50 elementos al principio
-		for (int i = 0; i< carrito.size(); i++) { //1ro si ya existe se suman las cantidades en LineaProdItem, 2do si no existia ese producto se añade como nuevo 
-            if (carrito.get(i)!=null && carrito.get(i).getCodProd() == idAgg) {
+		for (int i = 0; i>= carrito.size(); i++) { 
+            if (carrito.get(i)== null) {//si esta vacio, se agrega el nuevo elemento de LineaProdItem
             	//si se quiere agregar el mismo producto, se debe verificar que existe y sumar las cantidades
-                carrito.get(i).agregarCantidadConTope(cantidadAgg);
-                System.out.println("Se ha modificado la cantidad en una Linea de Producto");
-                break;
-            } else if (carrito.get(i)== null) {
-            	//si esta vacio, se agrega el nuevo elemento de LineaProdItem
             	carrito.set(i, lineaAgg);
             	System.out.println("Se ha agregado una nueva Linea de Producto");
+                break;
+            } else if (carrito.get(i)!=null && carrito.get(i).getCodProd() == idAgg) {
+            	//1ro si ya existe se suman las cantidades en LineaProdItem, 2do si no existia ese producto se añade como nuevo 
+            	carrito.get(i).agregarCantidadConTope(cantidadAgg);
+                System.out.println("Se ha modificado la cantidad en una Linea de Producto");
+                break;
             	}
             
         }
@@ -150,8 +151,14 @@ public class ClientB {
 		    System.out.println(p.aTextoDeLinea());}
 	}
 	
-	private static void modificarPedido() {
+	private static void modificarPedido(List<LineaProductoItem>carrito) {
 		//accede a la linea de pedido por el ID del producto y modifica su cantidad
+		System.out.println("===SU CARRITO DE COMPRA===");
+		for (LineaProductoItem p : carrito) {
+		    System.out.println(p.aTextoDeLinea());}
+		
+		
+		
 	}
 	
 	private static void resumenCompra() {
