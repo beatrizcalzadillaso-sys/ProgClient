@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class ClientB {
 
 	private static Scanner teclado = new Scanner(System.in);
+	private static ArrayList<LineaProductoItem> shopBasket = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		System.out.println("Elija que tipo de producto desea"
@@ -16,7 +17,7 @@ public class ClientB {
 				+ "\n 4- Dulce"
 				+ "\n 5- Salir");
 		
-		LineaProductoItem[] carrito= new LineaProductoItem[50];
+		
 		
 		//listas de PRUEBA, CAMBIAR POR ArrayList para hacerlas dinamicas, para la hora de integrar con admin
 		
@@ -55,9 +56,9 @@ public class ClientB {
 			
 			entrarMenuTipo(opMenu, menu1);
 			
-			agregarCarrito(menu1, null);
+			agregarCesta(menu1, shopBasket);
 			
-			verPedido(null);
+			verPedido();
 			
 			modificarPedido(null);
 			
@@ -79,7 +80,7 @@ public class ClientB {
 			int respuesta = Integer.parseInt(teclado.nextLine());
 			
 			if (respuesta == 1) {
-				agregarCarrito(menu1, null);
+				agregarCesta(menu1, shopBasket);
 			} else {/* regresar al menu*/ }
 		} else {}
 		
@@ -88,7 +89,7 @@ public class ClientB {
 		
 	}
 	
-	private static void agregarCarrito(List<ProductoItem> menu1, List<LineaProductoItem> carrito) {
+	private static void agregarCesta(List<ProductoItem> menu1, ArrayList<LineaProductoItem> shopBasket) {
 		String idAdd; 
 		String cantidadAdd;
 		
@@ -121,40 +122,46 @@ public class ClientB {
 			
 		} while (!verificado (idAdd, cantidadAdd, menu1));
 		
-		//error java.lang.Null.PointerException pq carrito esta vacio
+		//error java.lang.Null.PointerException pq Cesta esta vacio
 		
 		int idAgg = Integer.parseInt(idAdd);
 		int cantidadAgg = Integer.parseInt(cantidadAdd);
 		ProductoItem prodAgg= ProductoItem.getProductoPorId(menu1, idAgg);
 		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
 		
-		//error al empezar el for, no está viendo el carrito que se inicializo con 50 elementos al principio
-		for (int i = 0; i>= carrito.size(); i++) { 
-            if (carrito.get(i)== null) {//si esta vacio, se agrega el nuevo elemento de LineaProdItem
-            	//si se quiere agregar el mismo producto, se debe verificar que existe y sumar las cantidades
-            	carrito.set(i, lineaAgg);
-            	System.out.println("Se ha agregado una nueva Linea de Producto");
-                break;
-            } else if (carrito.get(i)!=null && carrito.get(i).getCodProd() == idAgg) {
-            	//1ro si ya existe se suman las cantidades en LineaProdItem, 2do si no existia ese producto se añade como nuevo 
-            	carrito.get(i).agregarCantidadConTope(cantidadAgg);
-                System.out.println("Se ha modificado la cantidad en una Linea de Producto");
-                break;
-            	}
-            
-        }
+				
+		// Buscar si ya existe una línea con ese ID
+		int index = -1;
+		for (int i = 0; i < shopBasket.size(); i++) {
+		    if (shopBasket.get(i).getCodProd() == idAgg) {
+		        index = i;
+		        break;
+		    }
+		}
+
+		if (index >= 0) {
+		    // si ya existe, suma cantidad con tope
+		    LineaProductoItem lp = shopBasket.get(index);
+		    lp.agregarCantidadConTope(cantidadAgg);
+		    System.out.println("Se ha modificado la cantidad en una Línea de Producto");
+		} else {
+		    // No existe,  agregar NUEVA línea al FINAL
+		    shopBasket.add(lineaAgg);
+		    System.out.println("Se ha agregado una nueva Línea de Producto");
+		}
+
 		
 	}
 	
-	private static void verPedido(List<LineaProductoItem>carrito) {
-		for (LineaProductoItem p : carrito) {
+	private static void verPedido() {
+		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
 	}
 	
-	private static void modificarPedido(List<LineaProductoItem>carrito) {
+	private static void modificarPedido(ArrayList<LineaProductoItem>shopBasket) {
 		//accede a la linea de pedido por el ID del producto y modifica su cantidad
-		System.out.println("===SU CARRITO DE COMPRA===");
-		for (LineaProductoItem p : carrito) {
+		System.out.println("===SU Cesta DE COMPRA===");
+		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
 		
 		
@@ -182,7 +189,7 @@ public class ClientB {
 				break;
 			} else {System.out.println("El id de producto no existe o está introduciendo una cantidad incompatible");}
 		} 
-		System.out.println("Su producto se encuentra en existencias y será añadido a su carrito de compra");
+		System.out.println("Su producto se encuentra en existencias y será añadido a su Cesta de compra");
 		return existe;
 	}
 
