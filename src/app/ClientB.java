@@ -56,15 +56,18 @@ public class ClientB {
 			
 			entrarMenuTipo(opMenu, menu1);
 			
-			agregarCesta(menu1, shopBasket);
-			
-			verPedido();
-			
-			modificarPedido(null);
-			
-			resumenCompra();
-			
-			salir(); // poner opMenu = 5 
+			while(opMenu!=5) {
+				System.out.println("Menu guapo");
+				opMenu = Integer.parseInt(teclado.nextLine());
+				
+				switch(opMenu) {
+				case 1: agregarCesta(menu1, shopBasket); break;
+				case 2: verPedido(); break;
+				case 3: modificarPedido(null); break;
+				case 4: resumenCompra(); break;
+				case 5: salir(); // poner opMenu = 5 
+				}
+			}
 			
 		}while(opMenu!=5);
 

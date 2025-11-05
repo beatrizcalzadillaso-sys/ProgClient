@@ -18,14 +18,21 @@ public class ClienteAlt {
 
     /* ========== Entrada segura ========== */
 
+    /**
+     * Valida que el numero que se pase por teclado sea un entero
+     * @return
+     */
     private int leerEntero() {
-        // Lee una línea y trata de convertirla a int; si falla, devuelve Integer.MIN_VALUE para indicar inválido
+        int resultado = Integer.MIN_VALUE; // valor por defecto: inválido
         String linea = sc.nextLine();
+
         try {
-            return Integer.parseInt(linea.trim());
+            resultado = Integer.parseInt(linea.trim());
         } catch (Exception e) {
-            return Integer.MIN_VALUE;
+            // No hacemos nada: resultado se mantiene como Integer.MIN_VALUE
         }
+
+        return resultado;
     }
 
     private void pausar(String msg) {
@@ -35,7 +42,7 @@ public class ClienteAlt {
 
     /* ========== Menús ========== */
 
-    /** Muestra menú de tipos (1..4) y retorna el elegido. Repite hasta ser válido. */
+    /** Muestra menú de tipos (1,2,3,4) y retorna el elegido. Repite hasta ser válido. */
     private int pedirTipo() {
         int tipo = -1;
         boolean valido = false;
@@ -59,7 +66,12 @@ public class ClienteAlt {
         return tipo;
     }
 
-    /** Lista productos de un tipo dado. Devuelve true si hay al menos uno. */
+    /**
+     * Lista productos de un tipo dado. Devuelve true si hay al menos uno en el grupo que se pasa por parametro
+     * @param catalogo
+     * @param tipoNum
+     * @return boolean
+     */
     private boolean listarProductosPorTipo(List<ProductoItem> catalogo, int tipoNum) {
         System.out.println("\n=== PRODUCTOS DEL TIPO " + tipoNum + " ===");
         boolean hay = false;
@@ -380,5 +392,6 @@ public class ClienteAlt {
             // Si no deseaTerminar, simplemente continúa el bucle y vuelve a elegir tipo
         }
     }
+
 }
 
