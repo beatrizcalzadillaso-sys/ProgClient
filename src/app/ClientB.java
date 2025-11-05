@@ -70,7 +70,7 @@ public class ClientB {
 
 	}
 
-	private static void entrarMenuTipo(int opMenu, List<ProductoItem> menu1) {
+	private static void entrarMenuTipo(int opMenu, List<ProductoItem> menu1) { // arreglar los argumentos que recibe, valorar hacer entrarMenu de cada tipo
 		if (opMenu == 1 || opMenu == 2 ||opMenu == 3 ||opMenu == 4) {
 			for (ProductoItem p : menu1) {
 			    System.out.println(p.aTextoDeCatalogo());}
@@ -80,7 +80,7 @@ public class ClientB {
 			int respuesta = Integer.parseInt(teclado.nextLine());
 			
 			if (respuesta == 1) {
-				agregarCesta(menu1, shopBasket);
+				agregarCesta(menu1, shopBasket);       // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO SEA DE VALIDACION O DE COMPROBACION
 			} else {/* regresar al menu*/ }
 		} else {}
 		
@@ -105,7 +105,7 @@ public class ClientB {
 				idEntero = esEntero(idAdd);
 				if (!idEntero) {System.out.println("Ingrese un valor de tipo entero");
 					
-					}
+					} else {System.out.println("El identificador es un numero entero");}
 				} while(!idEntero);
 			// idAdd debe existir, mapear el catalogo de productos
 		
@@ -116,7 +116,7 @@ public class ClientB {
 				
 				if (!cantidadEntero) {System.out.println("Ingrese un valor de tipo entero \n");
 
-				    }
+				    } else {System.out.println("La cantidad introducida es un numero entero");}
 				} while(!cantidadEntero);
 			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 			
@@ -130,7 +130,7 @@ public class ClientB {
 		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
 		
 				
-		// Buscar si ya existe una línea con ese ID
+		// Buscar si ya existe un LineaProductoItem con ese ID
 		int index = -1;
 		for (int i = 0; i < shopBasket.size(); i++) {
 		    if (shopBasket.get(i).getCodProd() == idAgg) {
@@ -145,7 +145,7 @@ public class ClientB {
 		    lp.agregarCantidadConTope(cantidadAgg);
 		    System.out.println("Se ha modificado la cantidad en una Línea de Producto");
 		} else {
-		    // No existe,  agregar NUEVA línea al FINAL
+		    // No existe,  agregar nueva linea
 		    shopBasket.add(lineaAgg);
 		    System.out.println("Se ha agregado una nueva Línea de Producto");
 		}
@@ -166,14 +166,33 @@ public class ClientB {
 		
 		
 		
+		
 	}
 	
 	private static void resumenCompra() {
 		// imprime ademas del pedido, el total a pagar mas el IVA
+		
+		int sumandoPrecio= 0;
+		
+		for (LineaProductoItem p: shopBasket) {
+			sumandoPrecio= sumandoPrecio + p.getSubtotalEnCentimos();
+		} 
+		
+		int Total = sumandoPrecio;
+		int TotalIVA= Total + (21/100)* Total;
+		
+		System.out.println("===RESUMEN DE PEDIDO===");
+		for (LineaProductoItem p : shopBasket) {
+		    System.out.println(p.aTextoDeLinea());}
+		System.out.println("Total: "+Total);
+		System.out.println("Total + IVA: "+TotalIVA);
+				
+		
 	}
 	
 	private static void salir() {
 		//termina el programa cliente y regresa al menu de login
+		
 	}
 	
 	
@@ -201,7 +220,7 @@ public class ClientB {
 			esValido = false;
 		} else {
 			try {
-				Integer.parseInt(texto.trim());
+				Integer.parseInt(texto.trim()); //ver, optimizar para no tener que utilizar el try-catch
 			} catch (NumberFormatException e) {
 				esValido= true;
 			}
