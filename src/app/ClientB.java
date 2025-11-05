@@ -70,7 +70,7 @@ public class ClientB {
 
 	}
 
-	private static void entrarMenuTipo(int opMenu, List<ProductoItem> menu1) {
+	private static void entrarMenuTipo(int opMenu, List<ProductoItem> menu1) { // arreglar los argumentos que recibe, valorar hacer entrarMenu de cada tipo
 		if (opMenu == 1 || opMenu == 2 ||opMenu == 3 ||opMenu == 4) {
 			for (ProductoItem p : menu1) {
 			    System.out.println(p.aTextoDeCatalogo());}
@@ -80,7 +80,7 @@ public class ClientB {
 			int respuesta = Integer.parseInt(teclado.nextLine());
 			
 			if (respuesta == 1) {
-				agregarCesta(menu1, shopBasket);
+				agregarCesta(menu1, shopBasket);       // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO SEA DE VALIDACION O DE COMPROBACION
 			} else {/* regresar al menu*/ }
 		} else {}
 		
@@ -166,15 +166,33 @@ public class ClientB {
 		
 		
 		
+		
 	}
 	
 	private static void resumenCompra() {
 		// imprime ademas del pedido, el total a pagar mas el IVA
 		
+		int sumandoPrecio= 0;
+		
+		for (LineaProductoItem p: shopBasket) {
+			sumandoPrecio= sumandoPrecio + p.getSubtotalEnCentimos();
+		} 
+		
+		int Total = sumandoPrecio;
+		int TotalIVA= Total + (21/100)* Total;
+		
+		System.out.println("===RESUMEN DE PEDIDO===");
+		for (LineaProductoItem p : shopBasket) {
+		    System.out.println(p.aTextoDeLinea());}
+		System.out.println("Total: "+Total);
+		System.out.println("Total + IVA: "+TotalIVA);
+				
+		
 	}
 	
 	private static void salir() {
 		//termina el programa cliente y regresa al menu de login
+		
 	}
 	
 	
