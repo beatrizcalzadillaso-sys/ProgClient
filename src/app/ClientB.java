@@ -18,6 +18,15 @@ public class ClientB {
 		
 		LineaProductoItem[] carrito= new LineaProductoItem[50];
 		
+		//listas de PRUEBA, CAMBIAR POR ArrayList para hacerlas dinamicas, para la hora de integrar con admin
+		
+		ArrayList<ProductoItem> menu1 = new ArrayList<>();
+		menu1.add(new ProductoItem(112, 1, "Agua natural", 1.44));
+		menu1.add(new ProductoItem(123, 1, "Agua con gas", 1.26));
+		menu1.add(new ProductoItem(134, 1, "Zumo de naranja", 1.17));
+		menu1.add(new ProductoItem(145, 1, "Zumo de tomate", 1.35));
+		
+		
 		int opMenu = 0;
 				
 		do {
@@ -87,10 +96,19 @@ public class ClientB {
 	
 	private static void salir() {}
 	
-	private static boolean verificado(int idAdd, int cantidadAdd) {
+	private static boolean verificado(String idAdd, String cantidadAdd) {
 		
+		boolean existe = false;
+		int idAddInt = Integer.parseInt(idAdd);
+		int cantidadAddInt = Integer.parseInt(cantidadAdd);
 		
-		if () {}
+		for (ProductoItem p: menu1) {
+			if (p.getCodProd() == idAddInt && cantidadAddInt > 0 && cantidadAddInt <=20) {
+				existe = true;
+			}
+		} 
+		
+		return existe;
 	}
 	
 	private static boolean esEntero(String texto) {
