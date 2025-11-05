@@ -88,7 +88,9 @@ public class ClientB {
 	
 		
 	}
-	
+	/*
+	 * En el estado final deberia ser capaz de recibir cualquier menu y a partir de visualizar, el usuario agregaria a la cesta de compra
+	 */
 	private static void agregarCesta(List<ProductoItem> menu1, ArrayList<LineaProductoItem> shopBasket) {
 		String idAdd; 
 		String cantidadAdd;
@@ -152,17 +154,25 @@ public class ClientB {
 
 		
 	}
-	
+	/*
+	 * Imprime el pedido por consola
+	 */
 	private static void verPedido() {
 		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
 	}
-	
+	/*
+	 * Accede por id a los elementos LineaProductoItem para modificar su cantidad
+	 */
 	private static void modificarPedido(ArrayList<LineaProductoItem>shopBasket) {
-		//accede a la linea de pedido por el ID del producto y modifica su cantidad
-		System.out.println("===SU Cesta DE COMPRA===");
+		//accede en la cesta de compra, a la linea de pedido por el ID del producto y modifica su cantidad
+		System.out.println("===SU CESTA DE COMPRA===");
 		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
+		
+		System.out.println("Seleccione el id del producto que desea agregar más unidades");      
+		//int idMod = Integer.parseInt(teclado.nextLine());
+		
 		
 		
 		
