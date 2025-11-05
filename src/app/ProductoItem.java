@@ -1,5 +1,7 @@
 package app;
 
+
+import java.util.List;
 /**
  *
  */
@@ -145,6 +147,19 @@ public class ProductoItem {
      /** Formatea un valor en céntimos como texto con dos decimales */
     public static String formatearCentimos(int centimos) {
         return String.format("%.2f€", centimos / 100.0);
+    }
+    
+    public static ProductoItem getProductoPorId(List<ProductoItem> lista, int idBuscado) {
+        ProductoItem resultado = null;
+
+        for (ProductoItem p : lista) {
+            if (p.getCodProd() == idBuscado) {
+                resultado = p;
+                break;
+            }
+        }
+
+        return resultado;
     }
 
     public String aTextoDeCatalogo() {

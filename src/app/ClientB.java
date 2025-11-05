@@ -26,6 +26,26 @@ public class ClientB {
 		menu1.add(new ProductoItem(134, 1, "Zumo de naranja", 1.17));
 		menu1.add(new ProductoItem(145, 1, "Zumo de tomate", 1.35));
 		
+		ArrayList<ProductoItem> menu2 = new ArrayList<>();
+		menu2.add(new ProductoItem(212, 2, "Agua natural", 1.44));
+		menu2.add(new ProductoItem(223, 2, "Agua con gas", 1.26));
+		menu2.add(new ProductoItem(234, 2, "Zumo de naranja", 1.17));
+		menu2.add(new ProductoItem(245, 2, "Zumo de tomate", 1.35));
+		
+		ArrayList<ProductoItem> menu3 = new ArrayList<>();
+		menu3.add(new ProductoItem(312, 3, "Agua natural", 1.44));
+		menu3.add(new ProductoItem(323, 3, "Agua con gas", 1.26));
+		menu3.add(new ProductoItem(334, 3, "Zumo de naranja", 1.17));
+		menu3.add(new ProductoItem(345, 3, "Zumo de tomate", 1.35));
+		
+		ArrayList<ProductoItem> menu4 = new ArrayList<>();
+		menu4.add(new ProductoItem(412, 4, "Agua natural", 1.44));
+		menu4.add(new ProductoItem(423, 4, "Agua con gas", 1.26));
+		menu4.add(new ProductoItem(434, 4, "Zumo de naranja", 1.17));
+		menu4.add(new ProductoItem(445, 4, "Zumo de tomate", 1.35));
+		
+		
+		
 		
 		int opMenu = 0;
 				
@@ -35,9 +55,9 @@ public class ClientB {
 			
 			entrarMenuTipo(opMenu, menu1);
 			
-			agregarCarrito(menu1);
+			agregarCarrito(menu1, null);
 			
-			verPedido();
+			verPedido(null);
 			
 			modificarPedido();
 			
@@ -59,7 +79,7 @@ public class ClientB {
 			int respuesta = Integer.parseInt(teclado.nextLine());
 			
 			if (respuesta == 1) {
-				agregarCarrito(menu1);
+				agregarCarrito(menu1, null);
 			} else {/* regresar al menu*/ }
 		} else {}
 		
@@ -68,7 +88,7 @@ public class ClientB {
 		
 	}
 	
-	private static void agregarCarrito(List<ProductoItem> menu1) {
+	private static void agregarCarrito(List<ProductoItem> menu1, List<LineaProductoItem> carrito) {
 		String idAdd; 
 		String cantidadAdd;
 		
@@ -77,14 +97,13 @@ public class ClientB {
 		
 		do {
 			
-		    
+		    // se deberia imprimir nuevamente el catalogo del menu seleccionado
 			do {
 				System.out.println("Introduzca el ID del producto que desea");
 				idAdd = teclado.nextLine();
 				idEntero = esEntero(idAdd);
 				if (!idEntero) {System.out.println("Ingrese un valor de tipo entero");
-					//idAdd = null;
-					//idEntero = false;
+					
 					}
 				} while(!idEntero);
 			// idAdd debe existir, mapear el catalogo de productos
@@ -95,23 +114,53 @@ public class ClientB {
 				cantidadEntero = esEntero(cantidadAdd);
 				
 				if (!cantidadEntero) {System.out.println("Ingrese un valor de tipo entero \n");
-				   // cantidadEntero = false;
-				   // cantidadAdd = null;
+
 				    }
 				} while(!cantidadEntero);
 			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 			
 		} while (!verificado (idAdd, cantidadAdd, menu1));
 		
+		//error java.lang.Null.PointerException pq carrito esta vacio
+		
+		int idAgg = Integer.parseInt(idAdd);
+		int cantidadAgg = Integer.parseInt(cantidadAdd);
+		ProductoItem prodAgg= ProductoItem.getProductoPorId(menu1, idAgg);
+		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
+		
+		//error al empezar el for, no está viendo el carrito que se inicializo con 50 elementos al principio
+		for (int i = 0; i< carrito.size(); i++) { //1ro si ya existe se suman las cantidades en LineaProdItem, 2do si no existia ese producto se añade como nuevo 
+            if (carrito.get(i)!=null && carrito.get(i).getCodProd() == idAgg) {
+            	//si se quiere agregar el mismo producto, se debe verificar que existe y sumar las cantidades
+                carrito.get(i).agregarCantidadConTope(cantidadAgg);
+                System.out.println("Se ha modificado la cantidad en una Linea de Producto");
+                break;
+            } else if (carrito.get(i)== null) {
+            	//si esta vacio, se agrega el nuevo elemento de LineaProdItem
+            	carrito.set(i, lineaAgg);
+            	System.out.println("Se ha agregado una nueva Linea de Producto");
+            	}
+            
+        }
+		
 	}
 	
-	private static void verPedido() {}
+	private static void verPedido(List<LineaProductoItem>carrito) {
+		for (LineaProductoItem p : carrito) {
+		    System.out.println(p.aTextoDeLinea());}
+	}
 	
-	private static void modificarPedido() {}
+	private static void modificarPedido() {
+		//accede a la linea de pedido por el ID del producto y modifica su cantidad
+	}
 	
-	private static void resumenCompra() {}
+	private static void resumenCompra() {
+		// imprime ademas del pedido, el total a pagar mas el IVA
+	}
 	
-	private static void salir() {}
+	private static void salir() {
+		//termina el programa cliente y regresa al menu de login
+	}
 	
 	
 	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menu1) {
@@ -134,7 +183,7 @@ public class ClientB {
 	private static boolean esEntero(String texto) {
 		boolean esValido= true;
 		String sinEspacios= texto.trim();
-		if (texto == null || sinEspacios.isBlank()) {
+		if (texto == null || sinEspacios.isBlank()) { //faltaria validar que no se introduzca texto, pero estan las validaciones del mapeo por codigo de producto y las cantidades maximas y minimas
 			esValido = false;
 		} else {
 			try {
