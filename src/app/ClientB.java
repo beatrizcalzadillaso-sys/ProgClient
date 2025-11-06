@@ -57,13 +57,18 @@ public class ClientB {
 			entrarMenuTipo(opMenu, menu1);
 			
 			while(opMenu!=5) {
-				System.out.println("Menu guapo");
+				System.out.println("Menu guapo"
+						+ "\n 1- Agregar producto a la cesta de compra"
+						+ "\n 2- Visualizar estado de la cesta de compra"
+						+ "\n 3- Modificar las cantidades"
+						+ "\n 4- Resumen de Compra"
+						+ "\n 5- Salir");
 				opMenu = Integer.parseInt(teclado.nextLine());
 				
 				switch(opMenu) {
 				case 1: agregarCesta(menu1, shopBasket); break;
 				case 2: verPedido(); break;
-				case 3: modificarPedido(null); break;
+				case 3: modificarPedido(); break;
 				case 4: resumenCompra(); break;
 				case 5: salir(); // poner opMenu = 5 
 				}
@@ -170,7 +175,7 @@ public class ClientB {
 	/*
 	 * Accede por id a los elementos LineaProductoItem para modificar su cantidad
 	 */
-	private static void modificarPedido(ArrayList<LineaProductoItem>shopBasket) {
+	private static void modificarPedido() {
 		System.out.println("===SU CESTA DE COMPRA===");
 		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
@@ -232,7 +237,7 @@ public class ClientB {
 		for (LineaProductoItem p: shopBasket) {
 			if (p.getCodProd() == idChangeInt) {
 				p.setCantidad(cantidadInt);
-				System.out.println("La linea de pedido "+p.aTextoDeLinea()+ "ha modificado su cantidad");
+				System.out.println("La linea de pedido "+p.aTextoDeLinea()+" ha modificado su cantidad");
 				break;
 			}
 		}
@@ -257,7 +262,7 @@ public class ClientB {
 		System.out.println("===RESUMEN DE PEDIDO===");
 		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
-		System.out.println("Total: "+Total);
+		System.out.println("Total: "+Total+" en centimos");
 		System.out.println("Total + IVA: "+TotalIVA);
 				
 		
@@ -287,15 +292,14 @@ public class ClientB {
 
 	
 	private static boolean esEntero(String texto) {
-		boolean esValido= true;
+		boolean esValido= false;
 		String sinEspacios= texto.trim();
-		if (texto == null || sinEspacios.isBlank()) { //faltaria validar que no se introduzca texto, pero estan las validaciones del mapeo por codigo de producto y las cantidades maximas y minimas
-			esValido = false;
-		} else {
+		if (texto != null ) {
 			try {
-				Integer.parseInt(texto.trim()); //ver, optimizar para no tener que utilizar el try-catch
-			} catch (NumberFormatException e) {
+				int temp = Integer.parseInt(sinEspacios); 
 				esValido= true;
+			} catch (NumberFormatException e) {
+				System.out.println("Este caracter no es un numero entero");
 			}
 		}
 		return esValido;
