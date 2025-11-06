@@ -130,9 +130,9 @@ public class ClientB {
 				} while(!cantidadEntero);
 			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 			
-		} while (!verificado (idAdd, cantidadAdd, menu1));
+		} while (!verificado (idAdd, cantidadAdd, menu1)); // ERROR repite la funcion verificado tres veces si no existe el id en el menu
 		
-		//error java.lang.Null.PointerException pq Cesta esta vacio
+		
 		
 		int idAgg = Integer.parseInt(idAdd);
 		int cantidadAgg = Integer.parseInt(cantidadAdd);
@@ -256,14 +256,16 @@ public class ClientB {
 			sumandoPrecio= sumandoPrecio + p.getSubtotalEnCentimos();
 		} 
 		
-		int Total = sumandoPrecio;
-		int TotalIVA= Total + (21/100)* Total;
+		int TotalCentimos = sumandoPrecio;
+		int TotalIVACentimos= TotalCentimos + ((21/100)* TotalCentimos);
+		double Total= TotalCentimos/100;
+		double TotalIVA= TotalIVACentimos/100;
 		
 		System.out.println("===RESUMEN DE PEDIDO===");
 		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
-		System.out.println("Total: "+Total+" en centimos");
-		System.out.println("Total + IVA: "+TotalIVA);
+		System.out.printf("Total: %.2f €%n", Total);
+		System.out.printf("Total + IVA: %.2f €%n", TotalIVA);
 				
 		
 	}
@@ -273,7 +275,9 @@ public class ClientB {
 		
 	}
 	
-	
+	/*
+	 * funcion que verifica que el id introducido este en el menu y la cantidad este en la norma 
+	 */
 	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menu1) {
 		
 		boolean existe = false;
@@ -283,10 +287,14 @@ public class ClientB {
 		for (ProductoItem p: menu1) {
 			if (p.getCodProd() == idAddInt && cantidadAddInt > 0 && cantidadAddInt <=20) {
 				existe = true;
+				System.out.println("Su producto se encuentra en existencias y será añadido a su Cesta de compra");
 				break;
-			} else {System.out.println("El id de producto no existe o está introduciendo una cantidad incompatible");}
-		} 
-		System.out.println("Su producto se encuentra en existencias y será añadido a su Cesta de compra");
+				} else {
+				System.out.println("El id de producto no existe o está introduciendo una cantidad incompatible");
+				break;
+				}
+			} 
+		
 		return existe;
 	}
 
@@ -294,14 +302,13 @@ public class ClientB {
 	private static boolean esEntero(String texto) {
 		boolean esValido= false;
 		String sinEspacios= texto.trim();
-		if (texto != null ) {
 			try {
 				int temp = Integer.parseInt(sinEspacios); 
 				esValido= true;
 			} catch (NumberFormatException e) {
 				System.out.println("Este caracter no es un numero entero");
 			}
-		}
+		
 		return esValido;
 	}
 	
