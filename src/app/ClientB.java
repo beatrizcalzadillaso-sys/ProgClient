@@ -248,28 +248,51 @@ public class ClientB {
 		
 	}
 	
-	private static void resumenCompra() {
-		// imprime ademas del pedido, el total a pagar mas el IVA
-		
-		int sumandoPrecio= 0;
-		
-		for (LineaProductoItem p: shopBasket) {
-			sumandoPrecio= sumandoPrecio + p.getSubtotalEnCentimos();
+	private static void resumenCompra() { 
+		// imprime ademas del pedido, el total a pagar mas el IVA 
+		 
+		double sumandoPrecio= 0; 
+		 
+		for (LineaProductoItem p: shopBasket) { 
+			sumandoPrecio= sumandoPrecio + p.getSubtotalEnCentimos(); 
+		}  
+ 
+		double TotalIVACentimos= sumandoPrecio + (0.21* sumandoPrecio); 
+		double Total= sumandoPrecio/100; 
+		double TotalIVA= TotalIVACentimos/100; 
+		 
+		System.out.println("===RESUMEN DE PEDIDO==="); 
+		for (LineaProductoItem p : shopBasket) { 
+		    System.out.println(p.aTextoDeLinea());} 
+		 
+		System.out.printf("\nTotal: %.2f €%n", Total); 
+		System.out.printf("Total + IVA: %.2f €%n", TotalIVA); 
+				 
+		System.out.println("Desea proceder con el pago?"); 
+		 
+		int[] denoms = new int[] {1000,500,200,100,50,20,10,5,2,1 }; 
+        String[] etiquetas = new String[] {"10€","5€","2€","1€","0.50€","0.20€","0.10€","0.05€","0.02€","0.01€"}; 
+        int[] cantBill = new int[10]; 
+        int coin; 
+        double pago; 
+        double cambio; 
+		 
+		int respuesta = Integer.parseInt(teclado.nextLine()); 
+		if (respuesta == 1) { 
+			System.out.println("Ingrese la cantidad con la que va a pagar"); 
+			pago = Integer.parseInt(teclado.nextLine()); 
+			cambio = (pago*100) - TotalIVACentimos; 
+			for (int i = 0; i<= denoms.length-1 ; i++) { 
+				coin = (int)cambio/denoms[i]; 
+				cantBill[i] = coin; 
+				cambio = cambio%denoms[i]; 
+				} 
+			for (int i = 0; i<= denoms.length-1 ; i++) { 
+				System.out.println("\nLa cantidad de billetes/monedas de "+etiquetas[i]+" es "+cantBill[i]); 
+			}
+		}
 		} 
-		
-		int TotalCentimos = sumandoPrecio;
-		int TotalIVACentimos= TotalCentimos + ((21/100)* TotalCentimos);
-		double Total= TotalCentimos/100;
-		double TotalIVA= TotalIVACentimos/100;
-		
-		System.out.println("===RESUMEN DE PEDIDO===");
-		for (LineaProductoItem p : shopBasket) {
-		    System.out.println(p.aTextoDeLinea());}
-		System.out.printf("\nTotal: %.2f €%n", Total);
-		System.out.printf("Total + IVA: %.2f €%n", TotalIVA);
-				
-		
-	}
+		 
 	
 	private static void salir() {
 		//termina el programa cliente y regresa al menu de login
@@ -299,11 +322,11 @@ public class ClientB {
 					else {
 						System.out.println("\nLa cantidad introducida no es correcta");
 					}
-				} else {
-				System.out.println("\nSu producto no está en existencias");;
 				}
-			break;
-			} 
+			}
+		if (!existe) {
+			System.out.println("\nSu producto no está en existencias");;
+		}
 		
 		return checked;
 	}
