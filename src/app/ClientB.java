@@ -287,6 +287,7 @@ public class ClientB {
 		for (ProductoItem p: menu1) {
 			if (p.getCodProd() == idAddInt && cantidadAddInt > 0 && cantidadAddInt <=20) {
 				existe = true;
+<<<<<<< Updated upstream
 				System.out.println("Su producto se encuentra en existencias y será añadido a su Cesta de compra");
 				break;
 				} else {
@@ -294,6 +295,22 @@ public class ClientB {
 				break;
 				}
 			} 
+=======
+				System.out.println("\nSu producto se encuentra en existencias");
+				if (cantidadAddInt > 0 && cantidadAddInt <=20) {
+					cantCorrecta = true;
+					checked= cantCorrecta && existe;
+					break;
+					}
+					else {
+						System.out.println("\nLa cantidad introducida no es correcta");
+					}
+				}
+			}
+		if (!existe) {
+			System.out.println("\nSu producto no está en existencias");;
+		}
+>>>>>>> Stashed changes
 		
 		return existe;
 	}
