@@ -299,11 +299,11 @@ public class ClientB {
 					else {
 						System.out.println("\nLa cantidad introducida no es correcta");
 					}
-				} else {
-				System.out.println("\nSu producto no está en existencias");;
 				}
-			break;
-			} 
+			}
+		if (!existe) {
+			System.out.println("\nSu producto no está en existencias");;
+		}
 		
 		return checked;
 	}
