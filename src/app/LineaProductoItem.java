@@ -178,7 +178,7 @@ public class LineaProductoItem {
     /**
      * Recalcula el subtotal como (precioUnitario * cantidad) si hay producto y
      * cantidad válida.
-     * Si no, lo deja en 0 para evitar números basura.
+     * Si no, lo deja en 0 para evitar el error al multiplicar por zero.
      */
     private void recalcularSubtotal() {
         if (producto != null && cantidad >= 1 && cantidad <= 20) {
@@ -191,7 +191,7 @@ public class LineaProductoItem {
     /**
      * Devuelve true si:
      * - hay producto,
-     * - cantidad en [1..20],
+     * - cantidad en [1-20],
      * - y subtotal consistente (>= 0).
      */
     public boolean isCompletamenteValida() {
