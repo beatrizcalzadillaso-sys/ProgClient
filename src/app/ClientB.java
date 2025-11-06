@@ -125,7 +125,8 @@ public class ClientB {
 				cantidadAdd = teclado.nextLine();
 				cantidadEntero = esEntero(cantidadAdd);
 				
-				if (!cantidadEntero) {System.out.println("\nIngrese un valor de tipo entero \n");
+				if (!cantidadEntero) {
+					System.out.println("\nIngrese un valor de tipo entero \n");
 
 				    } else {System.out.println("\nLa cantidad introducida es un numero entero");}
 				} while(!cantidadEntero);
@@ -268,7 +269,9 @@ public class ClientB {
 		System.out.printf("\nTotal: %.2f €%n", Total); 
 		System.out.printf("Total + IVA: %.2f €%n", TotalIVA); 
 				 
-		System.out.println("Desea proceder con el pago?"); 
+		System.out.println("Desea proceder con el pago?"
+				+ "\n 1-Si"
+				+ "\n 2-No"); 
 		 
 		int[] denoms = new int[] {1000,500,200,100,50,20,10,5,2,1 }; 
         String[] etiquetas = new String[] {"10€","5€","2€","1€","0.50€","0.20€","0.10€","0.05€","0.02€","0.01€"}; 
@@ -281,12 +284,15 @@ public class ClientB {
 		if (respuesta == 1) { 
 			System.out.println("Ingrese la cantidad con la que va a pagar"); 
 			pago = Integer.parseInt(teclado.nextLine()); 
-			cambio = (pago*100) - TotalIVACentimos; 
+			cambio = (pago*100) - TotalIVACentimos;
+			double imprimible = cambio/100;
 			for (int i = 0; i<= denoms.length-1 ; i++) { 
 				coin = (int)cambio/denoms[i]; 
 				cantBill[i] = coin; 
-				cambio = cambio%denoms[i]; 
+				cambio = cambio%denoms[i];      // ERROR todavia no esta del todo bien por las aproximaciones
 				} 
+			
+			System.out.printf("Su cambio es %.2f €%n", imprimible); 
 			for (int i = 0; i<= denoms.length-1 ; i++) { 
 				System.out.println("\nLa cantidad de billetes/monedas de "+etiquetas[i]+" es "+cantBill[i]); 
 			}
