@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class ClientB {
 
 	private static Scanner teclado = new Scanner(System.in);
@@ -57,8 +58,8 @@ public class ClientB {
 			entrarMenuTipo(opMenu, menu1);
 			
 			while(opMenu!=5) {
-				System.out.println("Menu guapo"
-						+ "\n 1- Agregar producto a la cesta de compra"
+				System.out.println(
+						 "\n 1- Agregar producto a la cesta de compra"
 						+ "\n 2- Visualizar estado de la cesta de compra"
 						+ "\n 3- Modificar las cantidades"
 						+ "\n 4- Resumen de Compra"
@@ -82,10 +83,10 @@ public class ClientB {
 		if (opMenu == 1 || opMenu == 2 ||opMenu == 3 ||opMenu == 4) {
 			for (ProductoItem p : menu1) {
 			    System.out.println(p.aTextoDeCatalogo());}
-			System.out.println("Desea agregar un producto de este grupo?"
+			System.out.println("\nDesea agregar un producto de este grupo?"
 					+ "\n 1- Si"
 					+ "\n 2- No");
-			int respuesta = Integer.parseInt(teclado.nextLine());
+			int respuesta = Integer.parseInt(teclado.nextLine()); // no tiene excepcion de errores, hay que ingresar si o si 1 ó 2
 			
 			if (respuesta == 1) {
 				agregarCesta(menu1, shopBasket);       // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO SEA DE VALIDACION O DE COMPROBACION
@@ -110,23 +111,23 @@ public class ClientB {
 			
 		    // se deberia imprimir nuevamente el catalogo del menu seleccionado
 			do {
-				System.out.println("Introduzca el ID del producto que desea");
+				System.out.println("\nIntroduzca el ID del producto que desea");
 				idAdd = teclado.nextLine();
 				idEntero = esEntero(idAdd);
-				if (!idEntero) {System.out.println("Ingrese un valor de tipo entero");
+				if (!idEntero) {System.out.println("\n Ingrese un valor de tipo entero");
 					
-					} else {System.out.println("El identificador es un numero entero");}
+					} else {System.out.println("\nEl identificador es un numero entero");}
 				} while(!idEntero);
 			// idAdd debe existir, mapear el catalogo de productos
 		
 			do {
-				System.out.println("Introduzca la cantidad de producto que desea");
+				System.out.println("\nIntroduzca la cantidad de producto que desea");
 				cantidadAdd = teclado.nextLine();
 				cantidadEntero = esEntero(cantidadAdd);
 				
-				if (!cantidadEntero) {System.out.println("Ingrese un valor de tipo entero \n");
+				if (!cantidadEntero) {System.out.println("\nIngrese un valor de tipo entero \n");
 
-				    } else {System.out.println("La cantidad introducida es un numero entero");}
+				    } else {System.out.println("\nLa cantidad introducida es un numero entero");}
 				} while(!cantidadEntero);
 			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 			
@@ -153,11 +154,11 @@ public class ClientB {
 		    // si ya existe, suma cantidad con tope
 		    LineaProductoItem lp = shopBasket.get(index);
 		    lp.agregarCantidadConTope(cantidadAgg);
-		    System.out.println("Se ha modificado la cantidad en una Línea de Producto");
+		    System.out.println("\nSe ha modificado la cantidad en una Línea de Producto");
 		} else {
 		    // No existe,  agregar nueva linea
 		    shopBasket.add(lineaAgg);
-		    System.out.println("Se ha agregado una nueva Línea de Producto");
+		    System.out.println("\nSe ha agregado una nueva Línea de Producto");
 		}
 
 		
@@ -189,13 +190,13 @@ public class ClientB {
 		do {
 			// bucle para recoger un id entero
 			do {
-				System.out.println("Seleccione el id del producto que desea agregar más unidades");      
+				System.out.println("\nSeleccione el id del producto que desea agregar más unidades");      
 				idChangeText= teclado.nextLine();
 				idChangeEntero = esEntero(idChangeText);
 				if (!idChangeEntero) {
-					System.out.println("Su id no es valido, procederemos a comenzar su seleccion");
+					System.out.println("\nSu id no es valido, procederemos a comenzar su seleccion");
 					} else {
-							System.out.println("Su id es valido, procederemos a comprobar si se encuentra en shopBasket");
+							System.out.println("\nSu id es valido, procederemos a comprobar si se encuentra en shopBasket");
 							}
 				} while(!idChangeEntero);
 			// parseo idChangeText a entero
@@ -205,11 +206,11 @@ public class ClientB {
 			for (LineaProductoItem p: shopBasket) {
 				if (p.getCodProd() == idChangeInt) {
 					idInShopBasket= true;
-					System.out.println("Correcto, el id introducido está en shopBasket");
+					System.out.println("\nCorrecto, el id introducido está en shopBasket");
 					break;
 					}
 				}
-			System.out.println("El id introducido no existe en shopBasket,procederemos a comenzar el proceso");
+			System.out.println("\nEl id introducido no existe en shopBasket,procederemos a comenzar el proceso");
 		} while(!idInShopBasket);
 		
 		
@@ -221,23 +222,23 @@ public class ClientB {
 			
 		// bucle para verificar que la cantidad es un numero entero y esta entre 1 y 20
 		do {
-			System.out.println("Teclee la nueva cantidad de unidades que desea para ese producto");
+			System.out.println("\nTeclee la nueva cantidad de unidades que desea para ese producto");
 			cantidadTexto= teclado.nextLine();
 			cantidadIntValida= esEntero(cantidadTexto);
 			if (cantidadIntValida) {
 				cantidadInt = Integer.parseInt(cantidadTexto);
 				if (cantidadInt >= 1 && cantidadInt <= 20) {
 					cantidadValida = true;
-					System.out.println("La cantidad introducida está dentro de los limites admisibles");
-					} else {System.out.println("La cantidad debe estar entre 1 y 20");}
-				} else {System.out.println("La cantidad introducida no es un valor entero");}
+					System.out.println("\nLa cantidad introducida está dentro de los limites admisibles");
+					} else {System.out.println("\nLa cantidad debe estar entre 1 y 20");}
+				} else {System.out.println("\nLa cantidad introducida no es un valor entero");}
 			} while(!cantidadValida); 
 		
 		//cambiando la cantidad en la linea de producto en la cesta
 		for (LineaProductoItem p: shopBasket) {
 			if (p.getCodProd() == idChangeInt) {
 				p.setCantidad(cantidadInt);
-				System.out.println("La linea de pedido "+p.aTextoDeLinea()+" ha modificado su cantidad");
+				System.out.println("\nLa linea de pedido "+p.aTextoDeLinea()+" ha modificado su cantidad");
 				break;
 			}
 		}
@@ -264,7 +265,7 @@ public class ClientB {
 		System.out.println("===RESUMEN DE PEDIDO===");
 		for (LineaProductoItem p : shopBasket) {
 		    System.out.println(p.aTextoDeLinea());}
-		System.out.printf("Total: %.2f €%n", Total);
+		System.out.printf("\nTotal: %.2f €%n", Total);
 		System.out.printf("Total + IVA: %.2f €%n", TotalIVA);
 				
 		
@@ -278,24 +279,17 @@ public class ClientB {
 	/*
 	 * funcion que verifica que el id introducido este en el menu y la cantidad este en la norma 
 	 */
-	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menu1) {
+	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menu1) { // ERROR ESTA MIRANDO SOLAMENTE 
 		
 		boolean existe = false;
+		boolean cantCorrecta= false;
+		boolean checked = false;
 		int idAddInt = Integer.parseInt(idAdd);
 		int cantidadAddInt = Integer.parseInt(cantidadAdd);
 		
 		for (ProductoItem p: menu1) {
-			if (p.getCodProd() == idAddInt && cantidadAddInt > 0 && cantidadAddInt <=20) {
+			if (p.getCodProd() == idAddInt) {
 				existe = true;
-<<<<<<< Updated upstream
-				System.out.println("Su producto se encuentra en existencias y será añadido a su Cesta de compra");
-				break;
-				} else {
-				System.out.println("El id de producto no existe o está introduciendo una cantidad incompatible");
-				break;
-				}
-			} 
-=======
 				System.out.println("\nSu producto se encuentra en existencias");
 				if (cantidadAddInt > 0 && cantidadAddInt <=20) {
 					cantCorrecta = true;
@@ -310,9 +304,8 @@ public class ClientB {
 		if (!existe) {
 			System.out.println("\nSu producto no está en existencias");;
 		}
->>>>>>> Stashed changes
 		
-		return existe;
+		return checked;
 	}
 
 	
@@ -323,7 +316,7 @@ public class ClientB {
 				int temp = Integer.parseInt(sinEspacios); 
 				esValido= true;
 			} catch (NumberFormatException e) {
-				System.out.println("Este caracter no es un numero entero");
+				System.out.println("\nEste caracter no es un numero entero");
 			}
 		
 		return esValido;
