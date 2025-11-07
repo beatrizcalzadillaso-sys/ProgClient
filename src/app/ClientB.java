@@ -14,7 +14,8 @@ public class ClientB {
 	
 	public static void main(String[] args) {
 		 		
-		
+		ArrayList<ProductoItem> menuElegido = null; // se setea en "Visualizar y escoger"
+        boolean siCompro = false;
 		
 		int opMenu = 0;
 				
@@ -27,24 +28,48 @@ public class ClientB {
 						 "\n 1- Visualizar y escoger el tipo de producto"
 						+ "\n 2 - Confirmar la seleccion de su menu de producto"
 						+ "\n 3 - Agregar a la cesta de compra el producto del menu"		 
-						+ "\n 2- Visualizar estado de la cesta de compra"
-						+ "\n 3- Modificar las cantidades"
-						+ "\n 4- Resumen de Compra"
-						+ "\n 5- Salir");
+						+ "\n 4- Visualizar estado de la cesta de compra"
+						+ "\n 5- Modificar las cantidades"
+						+ "\n 6- Resumen de Compra"
+						+ "\n 7- Salir");
 				opMenu = Integer.parseInt(teclado.nextLine());
 				
 				switch(opMenu) { //menu guapo
-				case 1: selectMenu();break;
-				case 2: entrarMenuTipo(menuElegido);
-				case 3: agregarCesta(siCompro; menuElegido, shopBasket); break;
-				case 4: verPedido(); break;
+				case 1: {
+						menuElegido= selectMenu();
+						siCompro = false;}
+				
+				case 2: {
+						if (menuElegido == null) {
+							System.out.println("Debe escoger primero un menu a visualizar");
+							break;} 
+								
+						siCompro = entrarMenuTipo(menuElegido);
+						}
+				
+				case 3: {
+						if (menuElegido == null) {
+							System.out.println("Debe escoger primero un menu a visualizar"); 
+							break;}							
+						
+						if (!siCompro) {System.out.println("Debe comfirmar su seleccion antes de pasar a agregar productos"); 
+							break;}
+						
+						if (siCompro && menuElegido!=null) {
+							agregarCesta(siCompro, menuElegido);
+							}
+						}
+				case 4: if (menuElegido!=null) {
+							verPedido();} 
+						else {System.out.println("Su cesta de compra esta vacia");}
+						break;
 				case 5: modificarPedido(); break;
 				case 6: resumenCompra(); break;
 				case 7: salir(); // poner opMenu = 5 
 				}
 			}
 			
-		}while(opMenu!=5);
+		}while(opMenu!=7);
 
 	}
 	//listas de PRUEBA, CAMBIAR POR ArrayList para hacerlas dinamicas, para la hora de integrar con admin
@@ -113,68 +138,69 @@ public class ClientB {
 	/*
 	 * En el estado final deberia ser capaz de recibir cualquier menu y a partir de visualizar, el usuario agregaria a la cesta de compra
 	 */
-	private static void agregarCesta(boolean siCompro, ArrayList<ProductoItem>menuElegido) {
+	private static void agregarCesta(boolean confirma, ArrayList<ProductoItem>menuElegido) {
 		String idAdd; 
 		String cantidadAdd;
 		
 		boolean idEntero = false;
 	    boolean cantidadEntero = false;
 		
-		do {
-			
-		    // se deberia imprimir nuevamente el catalogo del menu seleccionado
+	    if (confirma) {
 			do {
-				System.out.println("\nIntroduzca el ID del producto que desea");
-				idAdd = teclado.nextLine();
-				idEntero = esEntero(idAdd);
-				if (!idEntero) {System.out.println("\n Ingrese un valor de tipo entero");
+				
+			    // se deberia imprimir nuevamente el catalogo del menu seleccionado
+				do {
+					System.out.println("\nIntroduzca el ID del producto que desea");
+					idAdd = teclado.nextLine();
+					idEntero = esEntero(idAdd);
+					if (!idEntero) {System.out.println("\n Ingrese un valor de tipo entero");
+						
+						} else {System.out.println("\nEl identificador es un numero entero");}
+					} while(!idEntero);
+				// idAdd debe existir, mapear el catalogo de productos
+			
+				do {
+					System.out.println("\nIntroduzca la cantidad de producto que desea");
+					cantidadAdd = teclado.nextLine();
+					cantidadEntero = esEntero(cantidadAdd);
 					
-					} else {System.out.println("\nEl identificador es un numero entero");}
-				} while(!idEntero);
-			// idAdd debe existir, mapear el catalogo de productos
-		
-			do {
-				System.out.println("\nIntroduzca la cantidad de producto que desea");
-				cantidadAdd = teclado.nextLine();
-				cantidadEntero = esEntero(cantidadAdd);
+					if (!cantidadEntero) {
+						System.out.println("\nIngrese un valor de tipo entero \n");
+	
+					    } else {System.out.println("\nLa cantidad introducida es un numero entero");}
+					} while(!cantidadEntero);
+				// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 				
-				if (!cantidadEntero) {
-					System.out.println("\nIngrese un valor de tipo entero \n");
-
-				    } else {System.out.println("\nLa cantidad introducida es un numero entero");}
-				} while(!cantidadEntero);
-			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
+			} while (!verificado (idAdd, cantidadAdd, menuElegido)); // ERROR repite la funcion verificado tres veces si no existe el id en el menu
 			
-		} while (!verificado (idAdd, cantidadAdd, menuElegido)); // ERROR repite la funcion verificado tres veces si no existe el id en el menu
-		
-		
-		
-		int idAgg = Integer.parseInt(idAdd);
-		int cantidadAgg = Integer.parseInt(cantidadAdd);
-		ProductoItem prodAgg= ProductoItem.getProductoPorId(menuElegido, idAgg);
-		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
-		
-				
-		// Buscar si ya existe un LineaProductoItem con ese ID
-		int index = -1;
-		for (int i = 0; i < shopBasket.size(); i++) {
-		    if (shopBasket.get(i).getCodProd() == idAgg) {
-		        index = i;
-		        break;
-		    }
-		}
-
-		if (index >= 0) {
-		    // si ya existe, suma cantidad con tope
-		    LineaProductoItem lp = shopBasket.get(index);
-		    lp.agregarCantidadConTope(cantidadAgg);
-		    System.out.println("\nSe ha modificado la cantidad en una Línea de Producto");
-		} else {
-		    // No existe,  agregar nueva linea
-		    shopBasket.add(lineaAgg);
-		    System.out.println("\nSe ha agregado una nueva Línea de Producto");
-		}
-
+			
+			
+			int idAgg = Integer.parseInt(idAdd);
+			int cantidadAgg = Integer.parseInt(cantidadAdd);
+			ProductoItem prodAgg= ProductoItem.getProductoPorId(menuElegido, idAgg);
+			LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
+			
+					
+			// Buscar si ya existe un LineaProductoItem con ese ID
+			int index = -1;
+			for (int i = 0; i < shopBasket.size(); i++) {
+			    if (shopBasket.get(i).getCodProd() == idAgg) {
+			        index = i;
+			        break;
+			    }
+			}
+	
+			if (index >= 0) {
+			    // si ya existe, suma cantidad con tope
+			    LineaProductoItem lp = shopBasket.get(index);
+			    lp.agregarCantidadConTope(cantidadAgg);
+			    System.out.println("\nSe ha modificado la cantidad en una Línea de Producto");
+			} else {
+			    // No existe,  agregar nueva linea
+			    shopBasket.add(lineaAgg);
+			    System.out.println("\nSe ha agregado una nueva Línea de Producto");
+			}
+		} else {System.out.println("No ha confirmado que desea comprar de este menu ");}
 		
 	}
 	
