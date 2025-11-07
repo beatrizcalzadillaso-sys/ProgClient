@@ -18,8 +18,6 @@ public class ClientB {
 
 		do {
 			System.out.println("Presione el numero para la opcion deseada");
-			opMenu = Integer.parseInt(teclado.nextLine());
-
 			while (opMenu != 5) {
 				System.out.println(
 						"\n 1- Visualizar y escoger el tipo de producto"
@@ -28,13 +26,13 @@ public class ClientB {
 								+ "\n 4- Visualizar estado de la cesta de compra"
 								+ "\n 5- Modificar las cantidades"
 								+ "\n 6- Resumen de Compra"
-								+ "\n 7- Salir");
+								+ "\n 7- Salir\n" + //
+																		"");
 				opMenu = Integer.parseInt(teclado.nextLine());
 
 				switch (opMenu) {
 					case 1: {
 						menuElegido = selectMenu();
-						siCompro = false;
 					}
 
 					case 2: {
@@ -57,9 +55,8 @@ public class ClientB {
 							break;
 						}
 
-						if (siCompro && menuElegido != null) {
-							agregarCesta(siCompro, menuElegido);
-						}
+						agregarCesta(menuElegido);
+
 					}
 					case 4:
 						if (menuElegido != null) {
@@ -69,11 +66,16 @@ public class ClientB {
 						}
 						break;
 					case 5:
-						modificarPedido();
+						if (menuElegido != null) {
+							modificarPedido();
+						} else {
+							System.out.println("Su cesta de compra esta vacia");
+						}
 						break;
 					case 6:
 						resumenCompra();
 						break;
+					
 					case 7:
 						salir();
 						opMenu = 7;
@@ -142,18 +144,21 @@ public class ClientB {
 		for (ProductoItem p : menuElegido) {
 			System.out.println(p.aTextoDeCatalogo());
 		}
+
+		boolean agregarEstado = false;
+
 		System.out.println("\nDesea agregar un producto de este grupo?"
 				+ "\n 1- Si"
 				+ "\n 2- No");
-		boolean siCompro = false;
+
 		int respuesta = Integer.parseInt(teclado.nextLine()); // no tiene excepcion de errores, hay que ingresar si o si
 																// 1 ó 2
 
 		if (respuesta == 1) {
-			siCompro = true; // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO
-								// SEA DE VALIDACION O DE COMPROBACION
+			agregarEstado = true; // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO
+									// SEA DE VALIDACION O DE COMPROBACION
 		}
-		return siCompro;
+		return agregarEstado;
 
 	}
 
@@ -161,73 +166,69 @@ public class ClientB {
 	 * En el estado final deberia ser capaz de recibir cualquier menu y a partir de
 	 * visualizar, el usuario agregaria a la cesta de compra
 	 */
-	private static void agregarCesta(boolean confirma, ArrayList<ProductoItem> menuElegido) {
+	private static void agregarCesta(ArrayList<ProductoItem> menuElegido) {
 		String idAdd;
 		String cantidadAdd;
 
 		boolean idEntero = false;
 		boolean cantidadEntero = false;
 
-		if (confirma) {
+		do {
+
+			// se deberia imprimir nuevamente el catalogo del menu seleccionado
 			do {
+				System.out.println("\nIntroduzca el ID del producto que desea");
+				idAdd = teclado.nextLine();
+				idEntero = esEntero(idAdd);
+				if (!idEntero) {
+					System.out.println("\n Ingrese un valor de tipo entero");
 
-				// se deberia imprimir nuevamente el catalogo del menu seleccionado
-				do {
-					System.out.println("\nIntroduzca el ID del producto que desea");
-					idAdd = teclado.nextLine();
-					idEntero = esEntero(idAdd);
-					if (!idEntero) {
-						System.out.println("\n Ingrese un valor de tipo entero");
-
-					} else {
-						System.out.println("\nEl identificador es un numero entero");
-					}
-				} while (!idEntero);
-				// idAdd debe existir, mapear el catalogo de productos
-
-				do {
-					System.out.println("\nIntroduzca la cantidad de producto que desea");
-					cantidadAdd = teclado.nextLine();
-					cantidadEntero = esEntero(cantidadAdd);
-
-					if (!cantidadEntero) {
-						System.out.println("\nIngrese un valor de tipo entero \n");
-
-					} else {
-						System.out.println("\nLa cantidad introducida es un numero entero");
-					}
-				} while (!cantidadEntero);
-				// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
-
-			} while (!verificado(idAdd, cantidadAdd, menuElegido)); // ERROR repite la funcion verificado tres veces si
-																	// no existe el id en el menu
-
-			int idAgg = Integer.parseInt(idAdd);
-			int cantidadAgg = Integer.parseInt(cantidadAdd);
-			ProductoItem prodAgg = ProductoItem.getProductoPorId(menuElegido, idAgg);
-			LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
-
-			// Buscar si ya existe un LineaProductoItem con ese ID
-			int index = -1;
-			for (int i = 0; i < shopBasket.size(); i++) {
-				if (shopBasket.get(i).getCodProd() == idAgg) {
-					index = i;
-					break;
+				} else {
+					System.out.println("\nEl identificador es un numero entero");
 				}
-			}
+			} while (!idEntero);
+			// idAdd debe existir, mapear el catalogo de productos
 
-			if (index >= 0) {
-				// si ya existe, suma cantidad con tope
-				LineaProductoItem lp = shopBasket.get(index);
-				lp.agregarCantidadConTope(cantidadAgg);
-				System.out.println("\nSe ha modificado la cantidad en una Línea de Producto");
-			} else {
-				// No existe, agregar nueva linea
-				shopBasket.add(lineaAgg);
-				System.out.println("\nSe ha agregado una nueva Línea de Producto");
+			do {
+				System.out.println("\nIntroduzca la cantidad de producto que desea");
+				cantidadAdd = teclado.nextLine();
+				cantidadEntero = esEntero(cantidadAdd);
+
+				if (!cantidadEntero) {
+					System.out.println("\nIngrese un valor de tipo entero \n");
+
+				} else {
+					System.out.println("\nLa cantidad introducida es un numero entero");
+				}
+			} while (!cantidadEntero);
+			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
+
+		} while (!verificado(idAdd, cantidadAdd, menuElegido)); // ERROR repite la funcion verificado tres veces si
+																// no existe el id en el menu
+
+		int idAgg = Integer.parseInt(idAdd);
+		int cantidadAgg = Integer.parseInt(cantidadAdd);
+		ProductoItem prodAgg = ProductoItem.getProductoPorId(menuElegido, idAgg);
+		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
+
+		// Buscar si ya existe un LineaProductoItem con ese ID
+		int index = -1;
+		for (int i = 0; i < shopBasket.size(); i++) {
+			if (shopBasket.get(i).getCodProd() == idAgg) {
+				index = i;
+				break;
 			}
+		}
+
+		if (index >= 0) {
+			// si ya existe, suma cantidad con tope
+			LineaProductoItem lp = shopBasket.get(index);
+			lp.agregarCantidadConTope(cantidadAgg);
+			System.out.println("\nSe ha modificado la cantidad en una Línea de Producto");
 		} else {
-			System.out.println("No ha confirmado que desea comprar de este menu ");
+			// No existe, agregar nueva linea
+			shopBasket.add(lineaAgg);
+			System.out.println("\nSe ha agregado una nueva Línea de Producto");
 		}
 
 	}
@@ -321,7 +322,10 @@ public class ClientB {
 		// imprime ademas del pedido, el total a pagar mas el IVA
 
 		double sumandoPrecio = 0;
-
+		if (shopBasket.size() == 0){
+			System.out.println("No ha hecho ninguna compra");
+			return;
+		}
 		for (LineaProductoItem p : shopBasket) {
 			sumandoPrecio = sumandoPrecio + p.getSubtotalEnCentimos();
 		}
