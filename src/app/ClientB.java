@@ -34,7 +34,7 @@ public class ClientB {
 						+ "\n 7- Salir");
 				opMenu = Integer.parseInt(teclado.nextLine());
 				
-				switch(opMenu) { //menu guapo
+				switch(opMenu) { 
 				case 1: {
 						menuElegido= selectMenu();
 						siCompro = false;}
@@ -65,7 +65,9 @@ public class ClientB {
 						break;
 				case 5: modificarPedido(); break;
 				case 6: resumenCompra(); break;
-				case 7: salir(); // poner opMenu = 5 
+				case 7: salir();
+						opMenu = 7; 
+						break;
 				}
 			}
 			
@@ -99,7 +101,7 @@ public class ClientB {
 				menu4.add(new ProductoItem(434, 4, "Zumo de naranja", 1.17));
 				menu4.add(new ProductoItem(445, 4, "Zumo de tomate", 1.35));
 				
-				System.out.println("Elija que tipo de producto desea"
+				System.out.println("\n Elija que tipo de producto desea"
 						+ "\n 1- Agua"
 						+ "\n 2- Bebida"
 						+ "\n 3- Salado"
@@ -250,7 +252,9 @@ public class ClientB {
 					break;
 					}
 				}
-			System.out.println("\nEl id introducido no existe en shopBasket,procederemos a comenzar el proceso");
+			if (!idInShopBasket) {
+				System.out.println("\nEl id introducido no existe en shopBasket,procederemos a comenzar el proceso");
+				}
 		} while(!idInShopBasket);
 		
 		
@@ -282,10 +286,6 @@ public class ClientB {
 				break;
 			}
 		}
-		
-		
-		
-		
 	}
 	
 	private static void resumenCompra() { 
@@ -340,7 +340,10 @@ public class ClientB {
 		 
 	
 	private static void salir() {
-		//termina el programa cliente y regresa al menu de login
+		shopBasket.clear();
+
+	    System.out.println("\nSu cesta de compra ha sido vaciada.");
+	    System.out.println("Gracias por su visita. ¡Vuelva pronto!");
 		
 	}
 	
