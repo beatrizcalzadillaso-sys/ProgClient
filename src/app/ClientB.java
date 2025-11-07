@@ -10,43 +10,10 @@ public class ClientB {
 	private static Scanner teclado = new Scanner(System.in);
 	private static ArrayList<LineaProductoItem> shopBasket = new ArrayList<>();
 	
+	
+	
 	public static void main(String[] args) {
-		System.out.println("Elija que tipo de producto desea"
-				+ "\n 1- Agua"
-				+ "\n 2- Bebida"
-				+ "\n 3- Salado"
-				+ "\n 4- Dulce"
-				+ "\n 5- Salir");
-		
-		
-		
-		//listas de PRUEBA, CAMBIAR POR ArrayList para hacerlas dinamicas, para la hora de integrar con admin
-		
-		ArrayList<ProductoItem> menu1 = new ArrayList<>();
-		menu1.add(new ProductoItem(112, 1, "Agua natural", 1.44));
-		menu1.add(new ProductoItem(123, 1, "Agua con gas", 1.26));
-		menu1.add(new ProductoItem(134, 1, "Zumo de naranja", 1.17));
-		menu1.add(new ProductoItem(145, 1, "Zumo de tomate", 1.35));
-		
-		ArrayList<ProductoItem> menu2 = new ArrayList<>();
-		menu2.add(new ProductoItem(212, 2, "Agua natural", 1.44));
-		menu2.add(new ProductoItem(223, 2, "Agua con gas", 1.26));
-		menu2.add(new ProductoItem(234, 2, "Zumo de naranja", 1.17));
-		menu2.add(new ProductoItem(245, 2, "Zumo de tomate", 1.35));
-		
-		ArrayList<ProductoItem> menu3 = new ArrayList<>();
-		menu3.add(new ProductoItem(312, 3, "Agua natural", 1.44));
-		menu3.add(new ProductoItem(323, 3, "Agua con gas", 1.26));
-		menu3.add(new ProductoItem(334, 3, "Zumo de naranja", 1.17));
-		menu3.add(new ProductoItem(345, 3, "Zumo de tomate", 1.35));
-		
-		ArrayList<ProductoItem> menu4 = new ArrayList<>();
-		menu4.add(new ProductoItem(412, 4, "Agua natural", 1.44));
-		menu4.add(new ProductoItem(423, 4, "Agua con gas", 1.26));
-		menu4.add(new ProductoItem(434, 4, "Zumo de naranja", 1.17));
-		menu4.add(new ProductoItem(445, 4, "Zumo de tomate", 1.35));
-		
-		
+		 		
 		
 		
 		int opMenu = 0;
@@ -54,44 +21,90 @@ public class ClientB {
 		do {
 			System.out.println("Presione el numero para la opcion deseada");
 			opMenu = Integer.parseInt(teclado.nextLine());
-			
-			entrarMenuTipo(opMenu, menu1);
-			
+						
 			while(opMenu!=5) {
 				System.out.println(
-						 "\n 1- Agregar producto a la cesta de compra"
+						 "\n 1- Visualizar y escoger el tipo de producto"
+						+ "\n 2 - Confirmar la seleccion de su menu de producto"
+						+ "\n 3 - Agregar a la cesta de compra el producto del menu"		 
 						+ "\n 2- Visualizar estado de la cesta de compra"
 						+ "\n 3- Modificar las cantidades"
 						+ "\n 4- Resumen de Compra"
 						+ "\n 5- Salir");
 				opMenu = Integer.parseInt(teclado.nextLine());
 				
-				switch(opMenu) {
-				case 1: agregarCesta(menu1, shopBasket); break;
-				case 2: verPedido(); break;
-				case 3: modificarPedido(); break;
-				case 4: resumenCompra(); break;
-				case 5: salir(); // poner opMenu = 5 
+				switch(opMenu) { //menu guapo
+				case 1: selectMenu();break;
+				case 2: entrarMenuTipo(menuElegido);
+				case 3: agregarCesta(siCompro; menuElegido, shopBasket); break;
+				case 4: verPedido(); break;
+				case 5: modificarPedido(); break;
+				case 6: resumenCompra(); break;
+				case 7: salir(); // poner opMenu = 5 
 				}
 			}
 			
 		}while(opMenu!=5);
 
 	}
+	//listas de PRUEBA, CAMBIAR POR ArrayList para hacerlas dinamicas, para la hora de integrar con admin
+	
+		private static ArrayList<ProductoItem> selectMenu(){
+				ArrayList<ProductoItem> menu1 = new ArrayList<>();
+				menu1.add(new ProductoItem(112, 1, "Agua natural", 1.44));
+				menu1.add(new ProductoItem(123, 1, "Agua con gas", 1.26));
+				menu1.add(new ProductoItem(134, 1, "Zumo de naranja", 1.17));
+				menu1.add(new ProductoItem(145, 1, "Zumo de tomate", 1.35));
+				
+				ArrayList<ProductoItem> menu2 = new ArrayList<>();
+				menu2.add(new ProductoItem(212, 2, "Agua natural", 1.44));
+				menu2.add(new ProductoItem(223, 2, "Agua con gas", 1.26));
+				menu2.add(new ProductoItem(234, 2, "Zumo de naranja", 1.17));
+				menu2.add(new ProductoItem(245, 2, "Zumo de tomate", 1.35));
+				
+				ArrayList<ProductoItem> menu3 = new ArrayList<>();
+				menu3.add(new ProductoItem(312, 3, "Agua natural", 1.44));
+				menu3.add(new ProductoItem(323, 3, "Agua con gas", 1.26));
+				menu3.add(new ProductoItem(334, 3, "Zumo de naranja", 1.17));
+				menu3.add(new ProductoItem(345, 3, "Zumo de tomate", 1.35));
+				
+				ArrayList<ProductoItem> menu4 = new ArrayList<>();
+				menu4.add(new ProductoItem(412, 4, "Agua natural", 1.44));
+				menu4.add(new ProductoItem(423, 4, "Agua con gas", 1.26));
+				menu4.add(new ProductoItem(434, 4, "Zumo de naranja", 1.17));
+				menu4.add(new ProductoItem(445, 4, "Zumo de tomate", 1.35));
+				
+				System.out.println("Elija que tipo de producto desea"
+						+ "\n 1- Agua"
+						+ "\n 2- Bebida"
+						+ "\n 3- Salado"
+						+ "\n 4- Dulce");
+				
+				ArrayList<ProductoItem> menuElegido= new ArrayList<>();
+				
+				int menuTipo = Integer.parseInt(teclado.nextLine());
+				switch(menuTipo) {
+					case 1: menuElegido = menu1;break;
+					case 2: menuElegido = menu2;break;
+					case 3: menuElegido = menu3;break;
+					case 4: menuElegido = menu4;break;
+				}
+				return menuElegido;
+		}
 
-	private static void entrarMenuTipo(int opMenu, List<ProductoItem> menu1) { // arreglar los argumentos que recibe, valorar hacer entrarMenu de cada tipo
-		if (opMenu == 1 || opMenu == 2 ||opMenu == 3 ||opMenu == 4) {
-			for (ProductoItem p : menu1) {
-			    System.out.println(p.aTextoDeCatalogo());}
+	private static boolean entrarMenuTipo(ArrayList<ProductoItem>menuElegido) { 
+			for (ProductoItem p : menuElegido) {
+			System.out.println(p.aTextoDeCatalogo());}
 			System.out.println("\nDesea agregar un producto de este grupo?"
 					+ "\n 1- Si"
 					+ "\n 2- No");
+			boolean siCompro = false;
 			int respuesta = Integer.parseInt(teclado.nextLine()); // no tiene excepcion de errores, hay que ingresar si o si 1 ó 2
 			
 			if (respuesta == 1) {
-				agregarCesta(menu1, shopBasket);       // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO SEA DE VALIDACION O DE COMPROBACION
-			} else {/* regresar al menu*/ }
-		} else {}
+				siCompro= true;       // TRATAR DE EVITAR QUE DENTRO DE UNA FUNCION NO SE LLAME OTRA FUNCION QUE NO SEA DE VALIDACION O DE COMPROBACION
+			}
+			return siCompro;
 		
 		
 	
@@ -100,7 +113,7 @@ public class ClientB {
 	/*
 	 * En el estado final deberia ser capaz de recibir cualquier menu y a partir de visualizar, el usuario agregaria a la cesta de compra
 	 */
-	private static void agregarCesta(List<ProductoItem> menu1, ArrayList<LineaProductoItem> shopBasket) {
+	private static void agregarCesta(boolean siCompro, ArrayList<ProductoItem>menuElegido) {
 		String idAdd; 
 		String cantidadAdd;
 		
@@ -132,13 +145,13 @@ public class ClientB {
 				} while(!cantidadEntero);
 			// cantidadAdd debe ser mayor que zero y menor que 20, hay que verificar
 			
-		} while (!verificado (idAdd, cantidadAdd, menu1)); // ERROR repite la funcion verificado tres veces si no existe el id en el menu
+		} while (!verificado (idAdd, cantidadAdd, menuElegido)); // ERROR repite la funcion verificado tres veces si no existe el id en el menu
 		
 		
 		
 		int idAgg = Integer.parseInt(idAdd);
 		int cantidadAgg = Integer.parseInt(cantidadAdd);
-		ProductoItem prodAgg= ProductoItem.getProductoPorId(menu1, idAgg);
+		ProductoItem prodAgg= ProductoItem.getProductoPorId(menuElegido, idAgg);
 		LineaProductoItem lineaAgg = new LineaProductoItem(prodAgg, cantidadAgg);
 		
 				
@@ -271,7 +284,7 @@ public class ClientB {
 				 
 		System.out.println("Desea proceder con el pago?"
 				+ "\n 1-Si"
-				+ "\n 2-No"); 
+				+ "\n 2-No. El estado de su carrito de compra permanecera, a menos que salga del programa"); 
 		 
 		int[] denoms = new int[] {1000,500,200,100,50,20,10,5,2,1 }; 
         String[] etiquetas = new String[] {"10€","5€","2€","1€","0.50€","0.20€","0.10€","0.05€","0.02€","0.01€"}; 
@@ -308,7 +321,7 @@ public class ClientB {
 	/*
 	 * funcion que verifica que el id introducido este en el menu y la cantidad este en la norma 
 	 */
-	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menu1) { // ERROR ESTA MIRANDO SOLAMENTE 
+	private static boolean verificado(String idAdd, String cantidadAdd, List<ProductoItem> menuElegido) { // ERROR ESTA MIRANDO SOLAMENTE 
 		
 		boolean existe = false;
 		boolean cantCorrecta= false;
@@ -316,7 +329,7 @@ public class ClientB {
 		int idAddInt = Integer.parseInt(idAdd);
 		int cantidadAddInt = Integer.parseInt(cantidadAdd);
 		
-		for (ProductoItem p: menu1) {
+		for (ProductoItem p: menuElegido) {
 			if (p.getCodProd() == idAddInt) {
 				existe = true;
 				System.out.println("\nSu producto se encuentra en existencias");
