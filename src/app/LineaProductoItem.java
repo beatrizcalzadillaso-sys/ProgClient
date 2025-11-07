@@ -11,16 +11,16 @@ package app;
  */
 public class LineaProductoItem {
 
-    // 
+    //
     // Campos
-    // 
+    //
     private ProductoItem producto; // no nulo
     private int cantidad; // [1..20]
     private int subtotalEnCentimos; // derivado: producto.precio * cantidad
 
-    // 
+    //
     // Constructores
-    // 
+    //
 
     public LineaProductoItem() {
         // Vacío: configurar con setters validados y luego revisar
@@ -39,9 +39,9 @@ public class LineaProductoItem {
         recalcularSubtotal(); // asegura consistencia si el orden de llamadas cambia
     }
 
-    // 
+    //
     // Setters validados
-    // 
+    //
 
     /**
      * Asigna el producto si no es nulo.
@@ -105,7 +105,7 @@ public class LineaProductoItem {
 
     //
     // Getters
-    // 
+    //
 
     public ProductoItem getProducto() {
         return producto;
@@ -171,9 +171,9 @@ public class LineaProductoItem {
         return precio;
     }
 
-    // 
+    //
     // Estado y formato
-    // 
+    //
 
     /**
      * Recalcula el subtotal como (precioUnitario * cantidad) si hay producto y

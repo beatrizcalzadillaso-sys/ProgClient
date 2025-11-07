@@ -1,6 +1,5 @@
 package app;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,7 +7,8 @@ import java.util.Scanner;
 /**
  * Flujo de cliente (consola).
  * - Trabaja con ProductoItem (codProd, tipoNum, nomProd, precioEnCentimos).
- * - Carrito con LineaProductoItem (referencia al ProductoItem y cantidad 1..20).
+ * - Carrito con LineaProductoItem (referencia al ProductoItem y cantidad
+ * 1..20).
  * - Cálculos en céntimos; formateo con ProductoItem.formatearCentimos().
  * - Validaciones con condicionales (sin excepciones).
  */
@@ -20,6 +20,7 @@ public class ClienteAlt {
 
     /**
      * Valida que el numero que se pase por teclado sea un entero
+     * 
      * @return
      */
     private int leerEntero() {
@@ -42,7 +43,10 @@ public class ClienteAlt {
 
     /* ========== Menús ========== */
 
-    /** Muestra menú de tipos (1,2,3,4) y retorna el elegido. Repite hasta ser válido. */
+    /**
+     * Muestra menú de tipos (1,2,3,4) y retorna el elegido. Repite hasta ser
+     * válido.
+     */
     private int pedirTipo() {
         int tipo = -1;
         boolean valido = false;
@@ -60,14 +64,17 @@ public class ClienteAlt {
                 tipo = in;
                 valido = true;
             } else {
-                System.out.println("Valor inválido, debe introducir el numero de los grupos disponibles. Intente de nuevo.");
+                System.out.println(
+                        "Valor inválido, debe introducir el numero de los grupos disponibles. Intente de nuevo.");
             }
         }
         return tipo;
     }
 
     /**
-     * Lista productos de un tipo dado. Devuelve true si hay al menos uno en el grupo que se pasa por parametro
+     * Lista productos de un tipo dado. Devuelve true si hay al menos uno en el
+     * grupo que se pasa por parametro
+     * 
      * @param catalogo
      * @param tipoNum
      * @return boolean
@@ -104,7 +111,9 @@ public class ClienteAlt {
         System.out.println("Subtotal (sin IVA): " + ProductoItem.formatearCentimos(subtotal));
     }
 
-    /** Busca un ProductoItem por código exacto (tres cifras) dentro del catálogo. */
+    /**
+     * Busca un ProductoItem por código exacto (tres cifras) dentro del catálogo.
+     */
     private ProductoItem buscarPorCodigo(List<ProductoItem> catalogo, int cod) {
         for (ProductoItem p : catalogo) {
             if (p != null && p.getCodProd() == cod) {
@@ -114,7 +123,9 @@ public class ClienteAlt {
         return null;
     }
 
-    /** Añade una línea al carrito o suma cantidad si ya existe, respetando tope 20. */
+    /**
+     * Añade una línea al carrito o suma cantidad si ya existe, respetando tope 20.
+     */
     private void addProductoAlCarrito(List<LineaProductoItem> carrito, ProductoItem prod, int cantidad) {
         // ¿ya existe en carrito?
         for (LineaProductoItem l : carrito) {
@@ -136,7 +147,10 @@ public class ClienteAlt {
         carrito.add(nueva);
     }
 
-    /** Fase Productos para un tipo dado. Devuelve true si el cliente decide terminar compra. */
+    /**
+     * Fase Productos para un tipo dado. Devuelve true si el cliente decide terminar
+     * compra.
+     */
     private boolean faseProductosParaTipo(List<ProductoItem> catalogo, List<LineaProductoItem> carrito, int tipoNum) {
         boolean deseaTerminar = false;
         boolean seguir = true;
@@ -199,7 +213,10 @@ public class ClienteAlt {
         return deseaTerminar;
     }
 
-    /** RESUMEN (aplica IVA 21%) y confirmación. Devuelve true si el cliente confirma y pasa a pago. */
+    /**
+     * RESUMEN (aplica IVA 21%) y confirmación. Devuelve true si el cliente confirma
+     * y pasa a pago.
+     */
     private boolean faseResumen(List<LineaProductoItem> carrito) {
         System.out.println("\n=== RESUMEN DE COMPRA ===");
         if (carrito.isEmpty()) {
@@ -230,7 +247,10 @@ public class ClienteAlt {
         }
     }
 
-    /** Fase PAGO (pago acumulado y cambio con desglose). Tras pagar muestra “Gracias” y retorna. */
+    /**
+     * Fase PAGO (pago acumulado y cambio con desglose). Tras pagar muestra
+     * “Gracias” y retorna.
+     */
     private void fasePago(int totalEnCentimos) {
         System.out.println("\n=== PAGO ===");
         System.out.println("Total a pagar: " + ProductoItem.formatearCentimos(totalEnCentimos));
@@ -266,7 +286,10 @@ public class ClienteAlt {
         }
     }
 
-    /** Conversión robusta de texto en euros ("12.34") a céntimos. Devuelve -1 si no es número. */
+    /**
+     * Conversión robusta de texto en euros ("12.34") a céntimos. Devuelve -1 si no
+     * es número.
+     */
     private int convertirEurosTextoACentimos(String txt) {
         // Acepta "12", "12.3", "12.34". Quita espacios.
         String t = txt.replace(",", ".").trim();
@@ -300,15 +323,20 @@ public class ClienteAlt {
             parteDec = t.substring(idx + 1);
         }
 
-        if (parteEntera.length() == 0) parteEntera = "0";
-        if (parteDec.length() == 0) parteDec = "0";
-        if (parteDec.length() == 1) parteDec = parteDec + "0";
-        if (parteDec.length() > 2) parteDec = parteDec.substring(0, 2);
+        if (parteEntera.length() == 0)
+            parteEntera = "0";
+        if (parteDec.length() == 0)
+            parteDec = "0";
+        if (parteDec.length() == 1)
+            parteDec = parteDec + "0";
+        if (parteDec.length() > 2)
+            parteDec = parteDec.substring(0, 2);
 
         try {
             int euros = Integer.parseInt(parteEntera);
             int cent = Integer.parseInt(parteDec);
-            if (euros < 0 || cent < 0) return -1;
+            if (euros < 0 || cent < 0)
+                return -1;
             return euros * 100 + cent;
         } catch (Exception e) {
             return -1;
@@ -318,9 +346,10 @@ public class ClienteAlt {
     /** Desglose óptimo de cambio (greedy) en céntimos. */
     private void desgloseCambio(int cambio) {
 
-        int[] denoms = new int[] { 20000,10000,5000,2000,1000,500,200,100,50,20,10,5,2,1 };
+        int[] denoms = new int[] { 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1 };
         String[] etiquetas = new String[] {
-            "200€","100€","50€","20€","10€","5€","2€","1€","0.50€","0.20€","0.10€","0.05€","0.02€","0.01€"
+                "200€", "100€", "50€", "20€", "10€", "5€", "2€", "1€", "0.50€", "0.20€", "0.10€", "0.05€", "0.02€",
+                "0.01€"
         };
 
         for (int i = 0; i < denoms.length; i++) {
@@ -369,7 +398,8 @@ public class ClienteAlt {
                     // calcular total y pasar a pago
                     int subtotal = 0;
                     for (LineaProductoItem l : carrito) {
-                        if (l != null) subtotal += l.getSubtotalEnCentimos();
+                        if (l != null)
+                            subtotal += l.getSubtotalEnCentimos();
                     }
                     int iva = (int) Math.round(subtotal * 21 / 100.0);
                     int total = subtotal + iva;
@@ -384,7 +414,8 @@ public class ClienteAlt {
                         quiereTerminar = true;
                     }
                 } else {
-                    // No confirmó -> volver a bienvenida (carrito se vacía por política tuya si lo deseas)
+                    // No confirmó -> volver a bienvenida (carrito se vacía por política tuya si lo
+                    // deseas)
                     carrito.clear();
                     pausar("Pulse ENTER para volver a la bienvenida...");
                 }
@@ -394,4 +425,3 @@ public class ClienteAlt {
     }
 
 }
-

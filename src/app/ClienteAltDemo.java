@@ -19,12 +19,17 @@ public class ClienteAltDemo {
         ProductoItem p5 = new ProductoItem(456, 4, "Café solo", 1.10);
 
         // Solo añadimos los productos válidos (según las validaciones de ProductoItem)
-        if (p1.isCompletamenteValido()) catalogo.add(p1);
-        if (p2.isCompletamenteValido()) catalogo.add(p2);
-        if (p3.isCompletamenteValido()) catalogo.add(p3);
-        if (p4.isCompletamenteValido()) catalogo.add(p4);
-        if (p5.isCompletamenteValido()) catalogo.add(p5);
-       
+        if (p1.isCompletamenteValido())
+            catalogo.add(p1);
+        if (p2.isCompletamenteValido())
+            catalogo.add(p2);
+        if (p3.isCompletamenteValido())
+            catalogo.add(p3);
+        if (p4.isCompletamenteValido())
+            catalogo.add(p4);
+        if (p5.isCompletamenteValido())
+            catalogo.add(p5);
+
         // Ejecutar el flujo de cliente
         ClienteAlt cliente = new ClienteAlt();
         cliente.ejecutarCliente(catalogo);
